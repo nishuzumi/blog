@@ -1,0 +1,21 @@
+{
+  "inputs": [
+    {
+      "name": "deposit_amount",
+      "public": true,
+      "type": "field"
+    },
+    {
+      "name": "secret",
+      "public": false,
+      "type": "field"
+    }
+  ],
+  "output": {
+    "type": "array",
+    "components": {
+      "size": 8,
+      "type": "u32"
+    }
+  }
+}

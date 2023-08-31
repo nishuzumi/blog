@@ -1,0 +1,9 @@
+import "hashes/sha256/512bit" as sha256;
+import "utils/pack/u32/nonStrictUnpack256" as unpack256;
+
+// deposit_amount: 存款金额
+// secret: 随机数
+// returns: 用于取款的commitment
+def main(field deposit_amount, private field secret) -> u32[8] {
+    return sha256(unpack256(deposit_amount), unpack256(secret));
+}

@@ -1,0 +1,4 @@
+{
+  "pasteImage.basePath": "${currentFileDir}",
+  "pasteImage.path": "${projectRoot}/static"
+}
