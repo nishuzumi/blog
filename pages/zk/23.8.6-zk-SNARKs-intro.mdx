@@ -1,9 +1,13 @@
+---
+title: zk-SNARKs 简介
+---
+
 # zk-SNARKs 简介
 
-> 本文翻译自 [Consensys](https://consensys.net/blog/developers/introduction-to-zk-snarks/)  
-> 翻译者：[@BoxMrChen](https://twitter.com/home)
+<Preamble />
 
-在这篇文章中，我们的目标是从实用的角度对 zk-SNARKs 进行概述。我们将把实际的数学问题视为一个黑箱，并试图围绕我们如何使用它们来发展一些直觉。我们还将展示一项关于[ 在以太坊中集成 zk-SNARKs 的最近工作的简单应用 ](https://blog.ethereum.org/2017/01/19/update-integrating-zcash-ethereum/)。
+在这篇文章中，我们的目标是从实用的角度对 zk-SNARKs 进行概述。我们将把实际的数学问题视为一个黑箱，并试图围绕我们如何使用它们来发展一些直觉。我们还将展示一项关于[
+在以太坊中集成 zk-SNARKs 的最近工作的简单应用 ](https://blog.ethereum.org/2017/01/19/update-integrating-zcash-ethereum/)。
 
 ## 零知识证明
 
@@ -156,7 +160,7 @@ function transfer(address _to, bytes32 hashValue, bytes32 hashSenderBalanceAfter
 
   bool senderProofIsCorrect = zksnarkverify(confTxSenderVk, [hashSenderBalanceBefore, hashSenderBalanceAfter, hashValue], zkProofSender);
 
-bool receiverProofIsCorrect = zksnarkverify(confTxReceiverVk, [hashReceiverBalanceBefore, hashReceiverBalanceAfter, hashValue], zkProofReceiver);
+  bool receiverProofIsCorrect = zksnarkverify(confTxReceiverVk, [hashReceiverBalanceBefore, hashReceiverBalanceAfter, hashValue], zkProofReceiver);
 
   if(senderProofIsCorrect && receiverProofIsCorrect) {
     balanceHashes[msg.sender] = hashSenderBalanceAfter;
@@ -177,3 +181,6 @@ bool receiverProofIsCorrect = zksnarkverify(confTxReceiverVk, [hashReceiverBalan
 - 余额需要使用 32 字节的数据并熵编码，以防止反向解析哈希以计算余额。
 - 需要处理向未使用地址发送的边缘情况。
 - 发件人需要与收件人进行交互才能发送。我们可能会有一个系统，发件人可以使用他们的证明来启动交易。然后，收件人可以在区块链上看到他们有一个“待处理的入账交易”，并可以完成它。
+
+> 本文翻译自 [Consensys](https://consensys.net/blog/developers/introduction-to-zk-snarks/)  
+> 翻译者：[@BoxMrChen](https://twitter.com/home)

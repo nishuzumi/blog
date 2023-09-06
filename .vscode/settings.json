@@ -1,4 +1,5 @@
 {
   "pasteImage.basePath": "${currentFileDir}",
-  "pasteImage.path": "${projectRoot}/static"
+  "pasteImage.path": "${projectRoot}/static",
+  "mdx.experimentalLanguageServer": true
 }

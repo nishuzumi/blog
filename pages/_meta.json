@@ -1,0 +1,12 @@
+{
+  "index":{
+    "title":"首页",
+    "display": "hidden"
+  },
+  "zk": "ZK 系列",
+  "eth": "ETH 系列",
+  "dark_forest":{
+    "title":"Dark Forest 游戏分析",
+    "display": "hidden"
+  }
+}

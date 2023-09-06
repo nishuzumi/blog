@@ -1,8 +1,10 @@
+---
+title: zk-SNARKs 在 Solidity 中的使用
+---
+
 # zk-SNARKs 在 Solidity 中的使用
 
-文章作者:[@BoxMrChen](https://twitter.com/BoxMrChen)，欢迎转载，转载请注明出处。
-文章 Github 仓库: https://github.com/nishuzumi/blog，欢迎 Star。如果文章有误，欢迎提 PR。
-进入交流群：欢迎添加个人微信`Im3boxtech`，备注`进群`，我会拉你进入交流群。
+<Preamble />
 
 本文章主要讲述了如何在 Solidity 中使用 zk-SNARKs，以及如何使用 ZoKrates 编译器来生成证明和验证合约。
 
@@ -30,7 +32,7 @@ curl -LSfs get.zokrat.es | sh
 
 也可以选择其他安装方式，具体选择查看他们的 Github 页面。
 
-![安装完成](../static/2023-08-24-02-30-39.png)
+![安装完成](/2023-08-24-02-30-39.png)
 
 ### 编写 zk 电路
 
@@ -291,4 +293,8 @@ function hexListToUint256BigEndian(hexList: string[]) {
 }
 ```
 
-![运行成功](../static/2023-08-31-18-10-30.png)
+![运行成功](/2023-08-31-18-10-30.png)
+
+import { BaseLink } from "components/base_link";
+
+项目的基础文件都放在: <BaseLink href="sources/zk">Github 仓库</BaseLink>[]()中，欢迎 Star。
