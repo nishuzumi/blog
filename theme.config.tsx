@@ -10,7 +10,7 @@ const config: DocsThemeConfig = {
   chat: {
     link: "https://t.me/BoxMrChen",
   },
-  docsRepositoryBase: "https://github.com/nishuzumi/blog",
+  docsRepositoryBase: "https://github.com/nishuzumi/blog/tree/main",
   footer: {
     text: (
       <div className="flex w-full flex-col">
