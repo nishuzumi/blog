@@ -43,6 +43,13 @@ const config: DocsThemeConfig = {
   toc: {
     title: "目录",
   },
+  head: (
+    <>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta property="og:title" content="ByteMahou" />
+      <meta property="og:description" content="简洁的字节魔法" />
+    </>
+  ),
 };
 
 export default config;
