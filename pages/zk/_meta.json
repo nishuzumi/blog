@@ -1,5 +1,5 @@
 {
-    "23.8.5-zk-SNARKs-info":"zk-SNARKs 简介",
-    "23.8.6-zk-SNARKs-intro":"zk-SNARKs 相关知识",
-    "23.8.25-zk-SNARKs-use-in-solidity":"zk-SNARKs 在Solidity中的使用"
+    "1-zk-SNARKs-intro":{},
+    "2-zk-SNARKs-info" :{},
+    "3-zk-SNARKs-use-in-solidity":{}
 }
