@@ -46,3 +46,41 @@ code.text-\[\.9em\] {
     display: none;
   }
 }
+
+/* Mermaid */
+svg[aria-roledescription="sequence"] {
+  @apply rounded-lg p-4;
+  background: linear-gradient(135deg, rgb(102, 126, 234), rgb(118, 75, 162));
+}
+
+svg[aria-roledescription="sequence"] line {
+  stroke: black !important;
+}
+
+text.actor {
+  @apply text-base;
+}
+
+text.actor > tspan {
+  fill: #ececff !important;
+}
+
+.actor {
+  fill: #22272e !important;
+  stroke: none !important;
+}
+
+.messageText {
+  fill: white !important;
+  stroke: none;
+}
+
+.messageLine0 {
+  stroke: white !important;
+}
+
+.actor-line {
+  stroke: grey;
+}
+
+/* End Mermaid */
