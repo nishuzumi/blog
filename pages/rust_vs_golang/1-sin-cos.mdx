@@ -1,0 +1,112 @@
+---
+title: Rust多线程浮点数运算比Golang慢一倍？
+---
+最近遇到一个有趣的问题，有人在测试Rust的性能的时候发现Rust比Golang慢竟然一倍。
+```shell
+Project             Execution Time (s)
+Rust                2.9696159
+Go                  1.981306
+```
+并且评论中大部分人都认为是多线程代码中的Mutex导致，但是根据我初步分析来看，和Mutex完全没用关系。
+代码如下。
+https://github.com/nishuzumi/rust-vs-golang/blob/main/sin-cos/rust/src/main.rs
+```rust
+use num_cpus;
+use std::{
+    sync::{Arc, Mutex},
+    thread,
+};
+
+use std::time::Instant;
+fn main() {
+    let num_cpus = num_cpus::get();
+    let start_time = Instant::now();
+
+    let mut handles = vec![];
+    let result = Arc::new(Mutex::new(vec![0.0; num_cpus]));
+
+    for i in 0..num_cpus {
+        let result = Arc::clone(&result);
+        let handle = thread::spawn(move || {
+            let mut local_result = 0.0;
+            for j in 0..100_000_000 {
+                local_result += (j as f64).sin() * (j as f64).cos();
+            }
+
+            let mut result = result.lock().unwrap();
+            result[i] = local_result;
+            println!("Thread {} result: {}", i, local_result);
+        });
+        handles.push(handle);
+    }
+
+    for handle in handles {
+        handle.join().unwrap();
+    }
+
+    let final_result = result.lock().unwrap().iter().sum::<f64>();
+
+    println!("Elapsed time: {:?}", start_time.elapsed().as_secs_f64());
+    println!("Final result: {}", final_result);
+}
+```
+而Golang部分的代码如下
+https://github.com/nishuzumi/rust-vs-golang/blob/main/sin-cos/golang/main.go
+```golang
+package main
+
+import (
+	"fmt"
+	"math"
+	"runtime"
+	"sync"
+	"time"
+)
+
+func main() {
+	numCPU := runtime.NumCPU()
+	fmt.Printf("Running with %d CPUs\n", numCPU)
+
+	var wg sync.WaitGroup
+
+	start := time.Now()
+
+	for i := 0; i < numCPU; i++ {
+		wg.Add(1)
+		go func(id int) {
+			defer wg.Done()
+			result := 0.0
+			for j := 0; j < 1e8; j++ {
+				result += math.Sin(float64(j)) * math.Cos(float64(j))
+			}
+			fmt.Printf("Goroutine %d result: %f\n", id, result)
+		}(i)
+	}
+
+	wg.Wait()
+
+	elapsed := time.Since(start)
+	fmt.Printf("Elapsed time: %f\n", elapsed.Seconds())
+}
+```
+
+初步分析来看，rust虽然用了一个毫无必要的锁，但是这个锁并没有堵塞线程的迹象。而运行出来的结果是。
+```shell
+Project             Execution Time (s)
+Rust                2.9696159
+Go                  1.981306
+```
+很明显，Rust的速度反而没有Golang快，慢了一秒。这是为什么呢？可以思考一下 马上揭晓答案。
+
+### 答案
+原因在于Window上的一些小问题，以上代码在Linux和macos下运行的速度是正常的，golang比rust慢。
+
+主要原因是，golang的math仓库是另外一套实现，而rust使用的是libm进行计算。在同样的环境下c++和rust的速度基本一致。而golang的math实现虽然快，但是损失了精度，详细可以见这里的解释。
+https://github.com/nishuzumi/rust-vs-golang/blob/main/sin-cos/readme.md
+
+### 结尾
+最近发现了很多这样的速度差异对比，我感觉很有意思，于是创建了一个仓库，用于记录这些差别。
+
+https://github.com/nishuzumi/rust-vs-golang
+
+如果你也有一些速度差异的例子，欢迎到Github中进行补充。
